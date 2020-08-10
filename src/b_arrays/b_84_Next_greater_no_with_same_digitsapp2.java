@@ -2,25 +2,50 @@ package b_arrays;
 
 import java.util.Arrays;
 
-//80 Sort an array in wave form
+//84 Next greater number with same set of digits Approach-2
 public class b_84_Next_greater_no_with_same_digitsapp2 {
 
     public static void main(String[] args) {
-        int arr[] = {8, 7, 6, 5, 4, 3, 2, 1};
+        String temp = "123456784987654321";
+        int[] s = new int[temp.length()];
+        for (int i = 0; i < temp.length(); i++)
+        {
+            s[i] = temp.charAt(i) - '0';
+        }
+        System.out.println(Arrays.toString(s));
 
-        for (int i = 1; i < arr.length; i = i + 2) {
-            if (i > 0 && arr[i - 1] > arr[i]) {
-                int temp = arr[i - 1];
-                arr[i - 1] = arr[i];
-                arr[i] = temp;
-            }
-
-            if (i + 1 < arr.length && arr[i + 1] > arr[i]) {
-                int temp = arr[i + 1];
-                arr[i + 1] = arr[i];
-                arr[i] = temp;
+        int left = -1;
+        for (int i = s.length -1; i-1 >= 0 ; i--) {
+            if(s[i-1] < s[i]) {
+                left = i-1;
+                break;
             }
         }
-        System.out.println(Arrays.toString(arr));
+
+        if(left == -1 ) {
+            System.out.println("cant produce");
+        }
+
+        int diffSoFar= Integer.MAX_VALUE;
+        int index = 0;
+        for (int i = left + 1; i < s.length ; i++) {
+            int tempdiffSoFar = s[i] - s[left];
+            if(tempdiffSoFar < diffSoFar && tempdiffSoFar>0) {
+                diffSoFar = tempdiffSoFar;
+                index = i;
+            }
+        }
+
+        int temp1 = s[left];
+        s[left] = s[index];
+        s[index] =temp1;
+
+        for(int i =left+1, r = s.length -1; i <= r ; i++ , r--) {
+            int temp2 = s[i];
+            s[i] = s[r];
+            s[r] =temp2;
+        }
+
+        System.out.println(Arrays.toString(s));
     }
 }
